@@ -4,7 +4,7 @@ Player will have types of shoots
 
 There will be enemies with different movements or shoots 
 
-Floors will pass by when deafeating enough enemies
+Floors will pass by when defeating enough enemies or bosses
 
 At least one boss
 
