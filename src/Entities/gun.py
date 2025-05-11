@@ -1,20 +1,21 @@
 from modules.point_direction import get_angle, get_point_radius
-from modules.utils           import debug_text
+from modules.utils           import debug_text, wave_text
 from .bullet                 import Bullet
 import pygame as pg
-
+import re, math
 
 class Gun(pg.sprite.Sprite):
-    def __init__(self, pos, ammo, fire_rate, reload, delta, group, enemies):
+    def __init__(self, pos, image, ammo, fire_rate, reload, delta, group, enemies, resize = 1):
         super().__init__()
         self.group = group
+        self.weapon_name = re.search("(spr).*png$", image)[0]
 
         self.start_ticks = 0
         self.seconds_passed = 0
         self.delta = delta
 
-        self.image = pg.image.load("./src/Sprites/spr_basic_gun.png")
-        self.image = pg.transform.scale(self.image, (self.image.get_width() * 1.5, self.image.get_height() * 1.5))
+        self.image = pg.image.load(image)
+        self.image = pg.transform.scale(self.image, (self.image.get_width() * resize, self.image.get_height() * resize))
         self.image_cp = self.image.copy()
         self.rect = self.image.get_rect(center = pos)
 
@@ -26,6 +27,9 @@ class Gun(pg.sprite.Sprite):
         self.reload = reload
 
         self.enemies = enemies
+
+        self.teste = 1
+
 
     def fire(self, pos_player, pos_mouse):
         bullet = Bullet((10, 10), 'red', self.delta, self.enemies)
@@ -51,7 +55,10 @@ class Gun(pg.sprite.Sprite):
         #self.rect.centery += self.direction[1] * self.spd 
 
         #self.face_mouse()
-        debug_text(f"Weapon: {self.reload}")
-
+        debug_text(f"Sprite: {self.weapon_name}")
+        wave_text("Teste", "white", pg.display.get_surface(), pg.display.get_surface().get_width()//2, 100, self.teste)
+        wave = (math.sin(self.teste))
+        print(wave)
+        self.teste += 0.1
     def draw(self):
         pass

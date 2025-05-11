@@ -1,5 +1,5 @@
 import pygame as pg
-import math
+import math, os
 from modules.point_direction import get_angle, get_point_direction, get_point_radius
 from .bullet                 import Bullet
 from .gun                    import Gun
@@ -30,9 +30,13 @@ class Player(pg.sprite.Sprite):
         # Gun variables
         self.fire_rate = 5
         self.inventory = []
+        
+        path = os.path.dirname("src/Sprites/")
+        image1 = os.path.join(path, "spr_basic_gun.png")
+        image2 = os.path.join(path, "spr_basic_gun_2.png")
 
-        self.gun1 = Gun((self.rect.centerx + 50, self.rect.centery + 50), 5, self.fire_rate, 5, self.delta, self.group, self.enemies)
-        self.gun2 = Gun((self.rect.centerx + 50, self.rect.centery + 50), 5, self.fire_rate, 10, self.delta, self.group, self.enemies)
+        self.gun1 = Gun((self.rect.centerx + 50, self.rect.centery + 50), image1, 5, self.fire_rate, 5, self.delta, self.group, self.enemies, 1)
+        self.gun2 = Gun((self.rect.centerx + 50, self.rect.centery + 50), image2, 5, self.fire_rate, 10, self.delta, self.group, self.enemies, 1.5)
         self.inventory.append(self.gun1)
         self.inventory.append(self.gun2)
         self.gun = self.inventory[0]
@@ -66,7 +70,9 @@ class Player(pg.sprite.Sprite):
 
         if just_p[pg.K_r]:
             self.change_weapon(self.inventory[1])
-            #print(self.gun.reload)
+
+        if just_p[pg.K_e]:
+            self.change_weapon(self.inventory[0])
 
         # Rotates sprite angle having the mouse as a base
         #self.angle = get_angle(self.rect.center, mouse) 

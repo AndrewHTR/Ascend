@@ -1,4 +1,4 @@
-import math
+import math, re, os
 
 def get_point_direction(origin, destination):
     x_dist = destination[0] - origin[0]
@@ -21,3 +21,7 @@ def get_angle(origin, destination):
     y_dist = destination[1] - origin[1]
     magnitude = math.atan2((x_dist),(y_dist))
     return math.degrees(magnitude)
+path = os.path.dirname("src/Sprites/")
+txt = os.path.join(path, "spr_basic_gun.png")
+x = re.search("(spr).*png$", txt)
+print(x[0])

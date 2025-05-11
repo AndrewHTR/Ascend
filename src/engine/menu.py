@@ -1,20 +1,19 @@
-from settings import *
-from engine.engine import Level
-from engine.menu   import main_menu
 import pygame as pg
+from settings import *
+from modules.utils import draw_text, wave_text
 
-def game():
+
+def main_menu(game):
     pg.init()
-
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     pg.display.set_caption("Ascend")
 
     clock = pg.time.Clock()
 
     running = True
-    level = Level()
+    delta_time = 0 
 
-    delta_time = 0
+    teste = 1
 
     while running:
         screen.fill("black")
@@ -24,16 +23,14 @@ def game():
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_q:
                     running = False
-                if event.key == pg.K_c:
-                    main_menu(game=game)
+                if event.key == pg.K_SPACE:
+                    game()
 
-        level.run(delta_time)
-
+        wave_text("Main Menu", "white", screen, WIDTH//2, HEIGHT//2 - 190, teste, origin="center")
+        teste += 0.1
         pg.display.flip()
 
-        delta_time = clock.tick(60) * 0.001
+        clock.tick(60) * 0.001
 
     pg.quit()
 
-#main_menu(game=game)
-game()
