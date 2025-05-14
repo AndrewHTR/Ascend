@@ -16,29 +16,30 @@ class Level:
         #self.visible_sprites = CameraGroup()
         self.visible_sprites = pg.sprite.Group()
         self.active_sprites  = pg.sprite.Group()
-        self.collision_list = []
+        self.collision_list = {"Block": [], "Enemy": []}
 
-        for i in range(WIDTH):
+        for i in range(25):
             self.block = Block((i * SIZE, 0), 'white', [self.visible_sprites], self.delta)
             #self.block = Block((i * SIZE, HEIGHT - SIZE), 'white', [self.visible_sprites], self.delta)
-            self.collision_list.append(self.block)
+            #self.collision_list.append(self.block)
+            self.collision_list["Block"].append(self.block)
 
-        for i in range(HEIGHT):
+        for i in range(19):
             self.block = Block((0, i * SIZE), 'white', [self.visible_sprites], self.delta)
             #self.block = Block((WIDTH - SIZE, i * SIZE), 'white', [self.visible_sprites], self.delta)
-            self.collision_list.append(self.block)
+            self.collision_list["Block"].append(self.block)
 
         #self.setup_level()
         for i in range(2):
-            self.enemies.append(Enemy((random.randint(20, self.surface.get_width() - 32), random.randint(50, self.surface.get_height() - 32)), (32, 32), 'orange', [self.visible_sprites, self.active_sprites], self.delta))
-            self.collision_list.append(self.enemies[i])
+            self.enemy = Enemy((random.randint(20, self.surface.get_width() - 32), random.randint(50, self.surface.get_height() - 32)), (32, 32), 'orange', [self.visible_sprites, self.active_sprites], self.delta)
+            self.collision_list["Enemy"].append(self.enemy)
 
-        self.player = Player((40, 40), [self.visible_sprites, self.active_sprites], self.delta, self.enemies, self.collision_list)
+        self.player = Player((40, 40), [self.visible_sprites, self.active_sprites], self.delta, self.collision_list)
     
     def run(self, delta):
         self.delta = delta
         self.active_sprites.update()
-        #self.visible_sprites.custom_draw(self.player) # type: ignore
+        #self.visible_sprites.custom_draw(self.player) 
         self.visible_sprites.draw(self.surface)
 
 class CameraGroup(pg.sprite.Group):

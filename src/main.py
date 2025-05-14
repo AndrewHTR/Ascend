@@ -8,13 +8,15 @@ def game():
 
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     pg.display.set_caption("Ascend")
-
+    
     clock = pg.time.Clock()
 
     running = True
     level = Level()
 
     delta_time = 0
+
+    print(f"Starting {pg.display.get_caption()[0]}")
 
     while running:
         screen.fill("black")
