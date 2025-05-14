@@ -26,9 +26,6 @@ def display_fps(clock):
 def debug_text(text, origin = "nada"):
     draw_text(text, "white", pg.display.get_surface(), 20, 20, origin=origin)
 
-
-origin_x = 0
-
 def wave_text(text, color, surface, x, y, teste, origin = "center"):
     chars = []
     chars_rect = []
@@ -54,4 +51,3 @@ def wave_text(text, color, surface, x, y, teste, origin = "center"):
                 chars_rect[i].topleft = (x, y)
         
         surface.blit(chars[i], chars_rect[i])
-    

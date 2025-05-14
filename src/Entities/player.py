@@ -1,11 +1,12 @@
 import pygame as pg
 import math, os
 from modules.point_direction import get_angle, get_point_direction, get_point_radius
+from modules.utils           import debug_text
 from .bullet                 import Bullet
 from .gun                    import Gun
 
 class Player(pg.sprite.Sprite):
-    def __init__(self, pos, group, delta, enemies):
+    def __init__(self, pos, group, delta, enemies, collision):
         super().__init__(group)
         self.group = group
         
@@ -26,6 +27,7 @@ class Player(pg.sprite.Sprite):
 
         # Collision variables
         self.enemies = enemies
+        self.collision_list = collision
 
         # Gun variables
         self.fire_rate = 5
@@ -42,6 +44,31 @@ class Player(pg.sprite.Sprite):
         self.gun = self.inventory[0]
         self.gun.add(group)
     
+    def check_h_collision(self):
+        for x in self.collision_list:
+            if x.rect.colliderect(self.rect):
+                if self.mov[0] < 0:
+                    self.mov[0] = 0
+                    self.rect.left = x.rect.right
+                if self.mov[0] > 0:
+                    self.mov[0] = 0
+                    self.rect.right = x.rect.left
+    
+    def check_v_collision(self):
+        self.check_h_collision()
+        for y in self.collision_list:
+            if self.rect.colliderect(y.rect):
+                if self.mov[1] < 0:
+                    self.mov[1] = 0
+                    self.rect.top = y.rect.bottom
+                
+                if self.mov[1] > 0:
+                    self.mov[1] = 0
+                    self.rect.bottom = y.rect.top
+            
+    def check_collision(self):
+        self.check_v_collision()
+
     def change_weapon(self, weapon):
         self.gun.kill()
         self.gun = weapon
@@ -79,8 +106,9 @@ class Player(pg.sprite.Sprite):
         #self.image = pg.transform.rotate(self.image_cp, self.angle)
         #self.rect  = self.image.get_rect(center = self.rect.center)
         
-        self.rect.y += (self.mov[1] * (math.sqrt(2)/2)) * self.spd
-        self.rect.x += (self.mov[0] * (math.sqrt(2)/2)) * self.spd
+        self.rect.y += self.mov[1] * self.spd
+        self.rect.x += self.mov[0] * self.spd
+        self.check_collision()
         
         mouse = pg.mouse.get_pos()
 
@@ -93,11 +121,12 @@ class Player(pg.sprite.Sprite):
         if self.keys[pg.K_SPACE]:
             self.start_ticks = pg.time.get_ticks()
             self.gun.fire(self.rect.center, mouse)
-            #print(self.gun.group)
             
     def input(self):
         mouse = pg.mouse.get_pos()
         self.movement(mouse)
+        #self.check_v_collision()
+        #self.check_h_collision()
         self.fire(mouse)
 
     def update(self):

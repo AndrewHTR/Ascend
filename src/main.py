@@ -1,6 +1,6 @@
 from settings import *
-from engine.engine import Level
-from engine.menu   import main_menu
+from Engine.engine import Level
+from Engine.menu   import main_menu
 import pygame as pg
 
 def game():

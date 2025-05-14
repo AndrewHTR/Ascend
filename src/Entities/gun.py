@@ -55,10 +55,10 @@ class Gun(pg.sprite.Sprite):
         #self.rect.centery += self.direction[1] * self.spd 
 
         #self.face_mouse()
-        debug_text(f"Sprite: {self.weapon_name}")
-        wave_text("Teste", "white", pg.display.get_surface(), pg.display.get_surface().get_width()//2, 100, self.teste)
+        #debug_text(f"Sprite: {self.weapon_name}")
+        #wave_text("Teste", "white", pg.display.get_surface(), pg.display.get_surface().get_width()//2, 100, self.teste)
         wave = (math.sin(self.teste))
-        print(wave)
+        #print(wave)
         self.teste += 0.1
     def draw(self):
         pass
